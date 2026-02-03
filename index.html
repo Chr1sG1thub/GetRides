@@ -10,7 +10,7 @@
         
       const originalString = "API_KEY:3bjz27ydq97vjwmrc7f8u12oo";
       const base64Encoded = btoa(originalString);
-      const currentYear = new Date().getFullYear()+'01-01';
+      const currentYear = new Date().getFullYear()+'-01-01';
   
 try {
   const response = await fetch('https://intervals.icu/api/v1/athlete/0/activities?oldest='+currentYear+'&fields=type&fields=distance&fields=start_date', {
