@@ -20,8 +20,20 @@ try {
     }
   });
   const data = await response.json();
+  let rideCount = 0;
+  let virtualRideCount = 0;
+  let rideDistance = 0;
+  let virtualRideDistance = 0;
+
   data.forEach((ride) => {
-    console.log(ride.distance/1000);
+    if (ride.type == "VirtualRide"){
+      virtualRideCount++;
+      virtualRideDistance += ride.distance/1000;
+    } else {
+      rideCount++;
+      rideDistance += ride.distance/1000;
+    }
+    console.log(rideCount, rideDistance, virtualRideCount, virtualRideDistanc);
   }
               );
 console.log(data);
