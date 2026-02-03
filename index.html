@@ -36,7 +36,7 @@ try {
   }
               );
 //    console.log(rideCount, rideDistance, virtualRideCount, virtualRideDistance);
-    document.getElementById("loads").innerHTML = `<p>Real Rides: ${rideCount}, Distance: ${rideDistance}</p><p>Virtual Rides: ${virtualRideCount}, Distance: ${virtualRideDistance}</p>`;
+    document.getElementById("loads").innerHTML = `<p>Real Rides: ${rideCount}, Distance: ${Math.round(rideDistance)}km</p><p>Virtual Rides: ${virtualRideCount}, Distance: ${Math.round(virtualRideDistance)}km</p>`;
 
     
 } catch(error) {
