@@ -20,6 +20,10 @@ try {
     }
   });
   const data = await response.json();
+  data.forEach((ride) => {
+    console.log(ride.distance/1000);
+  }
+              );
 console.log(data);
     
 } catch(error) {
