@@ -32,7 +32,7 @@ try {
   let monthIndex;
 
   data.forEach((ride) => {
-    monthIndex = ride.start_date_local.getMonth();
+    monthIndex = new Date(ride.start_date_local).getMonth();
     if (ride.type == "VirtualRide"){
       virtualRideCount[monthIndex]++;
       virtualRideDistance[monthIndex] += ride.distance/1000;
