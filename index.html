@@ -79,6 +79,8 @@ try {
 
 tableHTML += `<tr><td>Total</td><td>${rideCountTot}</td><td>${movingTimeTotHours}:${movingTimeTotMinutes}:${movingTimeTotSeconds}</td><td>${Math.round(rideDistanceTot)}</td><td>&nbsp;</td><td>${rideElevationTot}</td></tr>`;
   tableHTML += '</table>';
+  const averageSpeed = rideDistanceTot*3600/rideMovingTimeTot;
+  tableHTML += `<p>Avg Speed: ${averageSpeed.toFixed(2)} km/h</p>`;
   document.getElementById("loads").innerHTML = tableHTML; 
     
 } catch(error) {
