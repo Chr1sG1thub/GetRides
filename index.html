@@ -1,99 +1,102 @@
 <html>
-  <head>
-    <title>GetRides</title>
-  </head>
-  <body style = "font-family: Arial; font-size: medium; background-color: thistle">
-    <div id="loads">Loading...</div>
-    <script>
-  
-      async function getData(){
-        
+
+<head>
+  <title>GetRides</title>
+</head>
+
+<body style="font-family: Arial; font-size: medium; background-color: thistle">
+  <div id="loads">Loading...</div>
+  <script>
+
+    async function getData() {
+
       const originalString = "API_KEY:3bjz27ydq97vjwmrc7f8u12oo";
       const base64Encoded = btoa(originalString);
-      const currentYear = new Date().getFullYear()+'-01-01';
-  
-try {
-  const response = await fetch('https://intervals.icu/api/v1/athlete/0/activities?oldest='+currentYear+'&fields=type&fields=distance&fields=start_date_local&fields=total_elevation_gain&fields=moving_time', {
-    headers: {
-      "Authorization": `Basic ${base64Encoded}`,
-      "Accept": "application/json"
-    }
-  });
-  const data = await response.json();
-  
-  let rideCount = new Array(12).fill(0);
-  let rideDistance = new Array(12).fill(0);
-  let rideElevation = new Array(12).fill(0);
-  let rideMovingTime = new Array(12).fill(0);
+      const currentYear = new Date().getFullYear() + '-01-01';
 
-  let rideCountTot = 0;
-  let rideDistanceTot = 0;
-  let rideElevationTot = 0;
-  let rideMovingTimeTot = 0;
-  
+      try {
+        const response = await fetch('https://intervals.icu/api/v1/athlete/0/activities?oldest=' + currentYear + '&fields=type&fields=distance&fields=start_date_local&fields=total_elevation_gain&fields=moving_time', {
+          headers: {
+            "Authorization": `Basic ${base64Encoded}`,
+            "Accept": "application/json"
+          }
+        });
+        const data = await response.json();
 
-  let virtualRideCount = new Array(12).fill(0);
-  let virtualRideDistance = new Array(12).fill(0);
+        let rideCount = new Array(12).fill(0);
+        let rideDistance = new Array(12).fill(0);
+        let rideElevation = new Array(12).fill(0);
+        let rideMovingTime = new Array(12).fill(0);
 
-  let monthIndex;
-  const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+        let rideCountTot = 0;
+        let rideDistanceTot = 0;
+        let rideElevationTot = 0;
+        let rideMovingTimeTot = 0;
 
-  data.forEach((ride) => {
-    monthIndex = new Date(ride.start_date_local).getMonth();
-    if (ride.type == "VirtualRide"){
-      virtualRideCount[monthIndex]++;
-      virtualRideDistance[monthIndex] += ride.distance/1000;
-    } else {
-      rideCount[monthIndex]++;
-      rideDistance[monthIndex] += ride.distance/1000;
-      rideElevation[monthIndex] += ride.total_elevation_gain;
-      rideMovingTime[monthIndex] += ride.moving_time;
-    }
-  }
-    );
-  
-//    console.log(rideCount, rideDistance, rideElevation, rideMovingTime, virtualRideCount, virtualRideDistance);
 
-  let rideDistCumul = 0;
-  let movingTimeHours;
-  let movingTimeMinutes;
-  let movingTimeSeconds;
+        let virtualRideCount = new Array(12).fill(0);
+        let virtualRideDistance = new Array(12).fill(0);
 
-  const today = new Date();
-  thisMonth = today.getMonth();
-  
+        let monthIndex;
+        const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
-  let tableHTML = '<p><h2>2026</h2></p><table border="1" style="text-align: right;"><tr><th>Month</th><th>Rides</th><th>Duration</th><th>Distance</th><th>Dist Cumul</th><th>Height Gain</th></tr>';
-  for (let i = 0; i <= thisMonth; i++) {
-    rideDistCumul += Math.round(rideDistance[i]);
-    rideCountTot += rideCount[i];
-    rideDistanceTot = rideDistCumul;  //avoids rounding errors between cumul and total
-    rideElevationTot += rideElevation[i];
-    rideMovingTimeTot += rideMovingTime[i];
-    movingTimeHours = Math.floor(rideMovingTime[i]/3600).toString().padStart(2, '0');
-    movingTimeMinutes = Math.floor((rideMovingTime[i]-movingTimeHours*3600)/60).toString().padStart(2, '0');
-    movingTimeSeconds = (rideMovingTime[i]-movingTimeHours*3600-movingTimeMinutes*60).toString().padStart(2, '0');
-    
-    
-    tableHTML += `<tr><td>${monthNames[i]}</td><td>${rideCount[i]}</td><td>${movingTimeHours}:${movingTimeMinutes}:${movingTimeSeconds}</td><td>${Math.round(rideDistance[i])}</td><td>${rideDistCumul}</td><td>${Math.round(rideElevation[i])}</td></tr>`;
-  }
-      movingTimeTotHours = Math.floor(rideMovingTimeTot/3600).toString().padStart(2, '0');
-    movingTimeTotMinutes = Math.floor((rideMovingTimeTot-movingTimeTotHours*3600)/60).toString().padStart(2, '0');
-    movingTimeTotSeconds = (rideMovingTimeTot-movingTimeTotHours*3600-movingTimeTotMinutes*60).toString().padStart(2, '0');
+        data.forEach((ride) => {
+          monthIndex = new Date(ride.start_date_local).getMonth();
+          if (ride.type == "VirtualRide") {
+            virtualRideCount[monthIndex]++;
+            virtualRideDistance[monthIndex] += ride.distance / 1000;
+          } else {
+            rideCount[monthIndex]++;
+            rideDistance[monthIndex] += ride.distance / 1000;
+            rideElevation[monthIndex] += ride.total_elevation_gain;
+            rideMovingTime[monthIndex] += ride.moving_time;
+          }
+        }
+        );
 
-tableHTML += `<tr><td>Total</td><td>${rideCountTot}</td><td>${movingTimeTotHours}:${movingTimeTotMinutes}:${movingTimeTotSeconds}</td><td>${Math.round(rideDistanceTot)}</td><td>&nbsp;</td><td>${rideElevationTot}</td></tr>`;
-  tableHTML += '</table>';
-  const averageSpeed = rideDistanceTot*3600/rideMovingTimeTot;
-  tableHTML += `<p>Avg Speed: ${averageSpeed.toFixed(2)} km/h</p>`;
-  document.getElementById("loads").innerHTML = tableHTML; 
-    
-} catch(error) {
-  console.error('Fetch error:', error);
-  document.getElementById("loads").innerHTML = 'Error loading wellness data';
-}
-        
-      } // async function getData()
-      getData();
-    </script>
-  </body>
+        //    console.log(rideCount, rideDistance, rideElevation, rideMovingTime, virtualRideCount, virtualRideDistance);
+
+        let rideDistCumul = 0;
+        let movingTimeHours;
+        let movingTimeMinutes;
+        let movingTimeSeconds;
+
+        const today = new Date();
+        thisMonth = today.getMonth();
+
+
+        let tableHTML = '<p><h2>2026</h2></p><table border="1" style="text-align: right;"><tr><th>Month</th><th>Rides</th><th>Duration</th><th>Distance</th><th>Dist Cumul</th><th>Height Gain</th></tr>';
+        for (let i = 0; i <= thisMonth; i++) {
+          rideDistCumul += Math.round(rideDistance[i]);
+          rideCountTot += rideCount[i];
+          rideDistanceTot = rideDistCumul;  //avoids rounding errors between cumul and total
+          rideElevationTot += rideElevation[i];
+          rideMovingTimeTot += rideMovingTime[i];
+          movingTimeHours = Math.floor(rideMovingTime[i] / 3600).toString().padStart(2, '0');
+          movingTimeMinutes = Math.floor((rideMovingTime[i] - movingTimeHours * 3600) / 60).toString().padStart(2, '0');
+          movingTimeSeconds = (rideMovingTime[i] - movingTimeHours * 3600 - movingTimeMinutes * 60).toString().padStart(2, '0');
+
+
+          tableHTML += `<tr><td>${monthNames[i]}</td><td>${rideCount[i]}</td><td>${movingTimeHours}:${movingTimeMinutes}:${movingTimeSeconds}</td><td>${Math.round(rideDistance[i])}</td><td>${rideDistCumul}</td><td>${Math.round(rideElevation[i])}</td></tr>`;
+        }
+        movingTimeTotHours = Math.floor(rideMovingTimeTot / 3600).toString().padStart(2, '0');
+        movingTimeTotMinutes = Math.floor((rideMovingTimeTot - movingTimeTotHours * 3600) / 60).toString().padStart(2, '0');
+        movingTimeTotSeconds = (rideMovingTimeTot - movingTimeTotHours * 3600 - movingTimeTotMinutes * 60).toString().padStart(2, '0');
+
+        tableHTML += `<tr><td>Total</td><td>${rideCountTot}</td><td>${movingTimeTotHours}:${movingTimeTotMinutes}:${movingTimeTotSeconds}</td><td>${Math.round(rideDistanceTot)}</td><td>&nbsp;</td><td>${rideElevationTot}</td></tr>`;
+        tableHTML += '</table>';
+        const averageSpeed = rideDistanceTot * 3600 / rideMovingTimeTot;
+        tableHTML += `<p>Avg Speed: ${averageSpeed.toFixed(2)} km/h</p>`;
+        document.getElementById("loads").innerHTML = tableHTML;
+
+      } catch (error) {
+        console.error('Fetch error:', error);
+        document.getElementById("loads").innerHTML = 'Error loading wellness data';
+      }
+
+    } // async function getData()
+    getData();
+  </script>
+</body>
+
 </html>
