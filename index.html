@@ -55,6 +55,9 @@ try {
 //    console.log(rideCount, rideDistance, rideElevation, rideMovingTime, virtualRideCount, virtualRideDistance);
 
   let rideDistCumul = 0;
+  let movingTimeHours;
+  let movingTimeMinutes;
+  let movingTimeSeconds;
 
   let tableHTML = '<table border="1" style="text-align: right;"><tr><td>Month</td><td>Rides</td><td>Duration</td><td>Distance</td><td>Dist Cumul</td><td>Height Gain</td></tr>';
   for (let i = 0; i < 12; i++) {
@@ -63,8 +66,12 @@ try {
     rideDistanceTot += rideDistance[i];
     rideElevationTot += rideElevation[i];
     rideMovingTimeTot += rideMovingTime[i];
+    movingTimeHours = Math.floor(rideMovingTime[i]/3600);
+    movingTimeMinutes = Math.floor((rideMovingTime[i]-movingTimeHours*3600)/60);
+    movingTimeSeconds = rideMovingTime[i]-movingTimeHours*3600-movingTimeMinutes*60;
     
-    tableHTML += `<tr><td>${monthNames[i]}</td><td>${rideCount[i]}</td><td>${rideMovingTime[i]}</td><td>${Math.round(rideDistance[i])}</td><td>${rideDistCumul}</td><td>${Math.round(rideElevation[i])}</td></tr>`;
+    
+    tableHTML += `<tr><td>${monthNames[i]}</td><td>${rideCount[i]}</td><td>${movingTimeHours}:${movingTimeMinutes}:${movingTimeSeconds}</td><td>${Math.round(rideDistance[i])}</td><td>${rideDistCumul}</td><td>${Math.round(rideElevation[i])}</td></tr>`;
   }
 tableHTML += `<tr><td>Total</td><td>${rideCountTot}</td><td>${rideMovingTimeTot}</td><td>${Math.round(rideDistanceTot)}</td><td>&nbsp;</td><td>${rideElevationTot}</td></tr>`;
   tableHTML += '</table>';
