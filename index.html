@@ -26,6 +26,12 @@ try {
   let rideElevation = new Array(12).fill(0);
   let rideMovingTime = new Array(12).fill(0);
 
+  let rideCountTot = 0;
+  let rideDistanceTot = 0;
+  let rideElevationTot = 0;
+  let rideMovingTimeTot = 0;
+  
+
   let virtualRideCount = new Array(12).fill(0);
   let virtualRideDistance = new Array(12).fill(0);
 
@@ -48,10 +54,19 @@ try {
   
 //    console.log(rideCount, rideDistance, rideElevation, rideMovingTime, virtualRideCount, virtualRideDistance);
 
-  let tableHTML = '<table border="1" style="text-align: right;"><tr><td>Month</td><td>Rides</td><td>Duration</td><td>Distance</td><td>Height Gain</td></tr>';
+  let rideDistCumul = 0;
+
+  let tableHTML = '<table border="1" style="text-align: right;"><tr><td>Month</td><td>Rides</td><td>Duration</td><td>Distance</td><td>Dist Cumul</td><td>Height Gain</td></tr>';
   for (let i = 0; i < 12; i++) {
-    tableHTML += `<tr><td>${monthNames[i]}</td><td>${rideCount[i]}</td><td>${rideMovingTime[i]}</td><td>${Math.round(rideDistance[i])}</td><td>${Math.round(rideElevation[i])}</td></tr>`;
+    rideDistCumul += Math.round(rideDistance[i]);
+    rideCountTot += rideCount[i];
+    rideDistanceTot += rideDistance[i];
+    rideElevationTot += rideElevation[i];
+    rideMovingTimeTot += rideMovingTime[i];
+    
+    tableHTML += `<tr><td>${monthNames[i]}</td><td>${rideCount[i]}</td><td>${rideMovingTime[i]}</td><td>${Math.round(rideDistance[i])}</td><td>${rideDistCumul}</td><td>${Math.round(rideElevation[i])}</td></tr>`;
   }
+tableHTML += `<tr><td>Total</td><td>${rideCountTot}</td><td>${rideMovingTimeTot}</td><td>${Math.round(rideDistanceTot)}</td><td>&nbsp;</td><td>${rideElevationTot}</td></tr>`;
   tableHTML += '</table>';
   document.getElementById("loads").innerHTML = tableHTML; 
     
