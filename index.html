@@ -49,7 +49,7 @@ try {
 //    console.log(rideCount, rideDistance, rideElevation, rideMovingTime, virtualRideCount, virtualRideDistance);
   
     document.getElementById("loads").innerHTML = '<table><tr><td>Month</td><td>Rides</td><td>Duration</td><td>Distance</td><td>Height Gain</td></tr>';
-  for (i == 0; i < 12; i++) {
+  for (let i == 0; i < 12; i++) {
     document.getElementById("loads").innerHTML += `<tr><td>${monthNames[i]}</td><td>${rideCount}</td><td>${rideMovingTime}</td><td>${Math.round(rideDistance)}</td><td>${Math.round(rideElevation)}</td></tr>`;
   }
   document.getElementById("loads").innerHTML += '</table>';
