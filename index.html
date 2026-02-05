@@ -21,28 +21,32 @@ try {
   });
   const data = await response.json();
   
-  let rideCount = 0;
-  let rideDistance = 0;
-  let rideElevation = 0;
-  let rideMovingTime = 0;
+  let rideCount = new Array(12).fill(0);
+  let rideDistance = new Array(12).fill(0);
+  let rideElevation = new Array(12).fill(0);
+  let rideMovingTime = new Array(12).fill(0);
 
-  let virtualRideCount = 0;
-  let virtualRideDistance = 0;
+  let virtualRideCount = new Array(12).fill(0);
+  let virtualRideDistance = new Array(12).fill(0);
+
+  let monthIndex;
 
   data.forEach((ride) => {
+    monthIndex = ride.start_date_local.getMonth();
     if (ride.type == "VirtualRide"){
-      virtualRideCount++;
-      virtualRideDistance += ride.distance/1000;
+      virtualRideCount[monthIndex]++;
+      virtualRideDistance[monthIndex] += ride.distance/1000;
     } else {
-      rideCount++;
-      rideDistance += ride.distance/1000;
-      rideElevation += ride.total_elevation_gain;
-      rideMovingTime += ride.moving_time;
+      rideCount[monthIndex]++;
+      rideDistance[monthIndex] += ride.distance/1000;
+      rideElevation[monthIndex] += ride.total_elevation_gain;
+      rideMovingTime[monthIndex] += ride.moving_time;
     }
   }
-              );
-//    console.log(rideCount, rideDistance, virtualRideCount, virtualRideDistance);
-    document.getElementById("loads").innerHTML = `<p>Real Rides: ${rideCount}, Distance: ${Math.round(rideDistance)} km, Elevation: ${Math.round(rideElevation)} m, Moving Time: ${rideMovingTime} s</p><p>Virtual Rides: ${virtualRideCount}, Distance: ${Math.round(virtualRideDistance)}km</p>`;
+    );
+  
+    console.log(rideCount, rideDistance, rideElevation, rideMovingTime, virtualRideCount, virtualRideDistance);
+//    document.getElementById("loads").innerHTML = `<p>Real Rides: ${rideCount}, Distance: ${Math.round(rideDistance)} km, Elevation: ${Math.round(rideElevation)} m, Moving Time: ${rideMovingTime} s</p><p>Virtual Rides: ${virtualRideCount}, Distance: ${Math.round(virtualRideDistance)}km</p>`;
 
     
 } catch(error) {
