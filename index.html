@@ -77,7 +77,7 @@ try {
     movingTimeTotMinutes = Math.floor((rideMovingTimeTot-movingTimeTotHours*3600)/60).toString().padStart(2, '0');
     movingTimeTotSeconds = (rideMovingTimeTot-movingTimeTotHours*3600-movingTimeTotMinutes*60).toString().padStart(2, '0');
 
-tableHTML += `<tr><td>Total</td><td>${rideCountTot}</td><td>${rideMovingTimeTotHours}:${rideMovingTimeTotMinutes}:${rideMovingTimeTotSeconds}</td><td>${Math.round(rideDistanceTot)}</td><td>&nbsp;</td><td>${rideElevationTot}</td></tr>`;
+tableHTML += `<tr><td>Total</td><td>${rideCountTot}</td><td>${movingTimeTotHours}:${movingTimeTotMinutes}:${movingTimeTotSeconds}</td><td>${Math.round(rideDistanceTot)}</td><td>&nbsp;</td><td>${rideElevationTot}</td></tr>`;
   tableHTML += '</table>';
   document.getElementById("loads").innerHTML = tableHTML; 
     
