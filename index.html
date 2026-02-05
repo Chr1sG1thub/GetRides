@@ -48,7 +48,7 @@ try {
   
 //    console.log(rideCount, rideDistance, rideElevation, rideMovingTime, virtualRideCount, virtualRideDistance);
 
-  let tableHTML = '<table><tr><td>Month</td><td>Rides</td><td>Duration</td><td>Distance</td><td>Height Gain</td></tr>';
+  let tableHTML = '<table border="1" style="text-align: right;"><tr><td>Month</td><td>Rides</td><td>Duration</td><td>Distance</td><td>Height Gain</td></tr>';
   for (let i = 0; i < 12; i++) {
     tableHTML += `<tr><td>${monthNames[i]}</td><td>${rideCount[i]}</td><td>${rideMovingTime[i]}</td><td>${Math.round(rideDistance[i])}</td><td>${Math.round(rideElevation[i])}</td></tr>`;
   }
