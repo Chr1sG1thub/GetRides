@@ -59,7 +59,7 @@ try {
   let movingTimeMinutes;
   let movingTimeSeconds;
 
-  let tableHTML = '<table border="1" style="text-align: right;"><tr><td>Month</td><td>Rides</td><td>Duration</td><td>Distance</td><td>Dist Cumul</td><td>Height Gain</td></tr>';
+  let tableHTML = '<table border="1" style="text-align: right;"><tr><strong><td>Month</td><td>Rides</td><td>Duration</td><td>Distance</td><td>Dist Cumul</td><td>Height Gain</td></strong></tr>';
   for (let i = 0; i < 12; i++) {
     rideDistCumul += Math.round(rideDistance[i]);
     rideCountTot += rideCount[i];
@@ -71,13 +71,13 @@ try {
     movingTimeSeconds = (rideMovingTime[i]-movingTimeHours*3600-movingTimeMinutes*60).toString().padStart(2, '0');
     
     
-    tableHTML += `<tr><td>${monthNames[i]}</td><td>${rideCount[i]}</td><td>${movingTimeHours}:${movingTimeMinutes}:${movingTimeSeconds}</td><td>${Math.round(rideDistance[i])}</td><td>${rideDistCumul}</td><td>${Math.round(rideElevation[i])}</td></tr>`;
+    tableHTML += `<tr><td>${monthNames[i]}</td><td>${rideCount[i]}</td><td>${movingTimeHours}:${movingTimeMinutes}:${movingTimeSeconds}</td><td>${Math.round(rideDistance[i])}</td><td>${rideDistCumul}</td><td>${Math.round(rideElevation[i])}</td></strong></tr>`;
   }
       movingTimeTotHours = Math.floor(rideMovingTimeTot/3600).toString().padStart(2, '0');
     movingTimeTotMinutes = Math.floor((rideMovingTimeTot-movingTimeTotHours*3600)/60).toString().padStart(2, '0');
     movingTimeTotSeconds = (rideMovingTimeTot-movingTimeTotHours*3600-movingTimeTotMinutes*60).toString().padStart(2, '0');
 
-tableHTML += `<tr><td>Total</td><td>${rideCountTot}</td><td>${movingTimeTotHours}:${movingTimeTotMinutes}:${movingTimeTotSeconds}</td><td>${Math.round(rideDistanceTot)}</td><td>&nbsp;</td><td>${rideElevationTot}</td></tr>`;
+tableHTML += `<tr><strong><td>Total</td><td>${rideCountTot}</td><td>${movingTimeTotHours}:${movingTimeTotMinutes}:${movingTimeTotSeconds}</td><td>${Math.round(rideDistanceTot)}</td><td>&nbsp;</td><td>${rideElevationTot}</td></tr>`;
   tableHTML += '</table>';
   document.getElementById("loads").innerHTML = tableHTML; 
     
