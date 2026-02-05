@@ -2,7 +2,7 @@
   <head>
     <title>GetRides</title>
   </head>
-  <body style = "font-family: Arial; font-size: 30px; background-color: thistle">
+  <body style = "font-family: Arial; font-size: medium; background-color: thistle">
     <div id="loads">Loading...</div>
     <script>
   
@@ -59,7 +59,7 @@ try {
   let movingTimeMinutes;
   let movingTimeSeconds;
 
-  let tableHTML = '<table border="1" style="text-align: right;"><tr><th>Month</th><th>Rides</th><th>Duration</th><th>Distance</th><th>Dist Cumul</th><th>Height Gain</th></tr>';
+  let tableHTML = '<p><h2>2026</h2></p><table border="1" style="text-align: right;"><tr><th>Month</th><th>Rides</th><th>Duration</th><th>Distance</th><th>Dist Cumul</th><th>Height Gain</th></tr>';
   for (let i = 0; i < 12; i++) {
     rideDistCumul += Math.round(rideDistance[i]);
     rideCountTot += rideCount[i];
