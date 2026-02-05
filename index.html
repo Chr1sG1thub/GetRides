@@ -66,14 +66,18 @@ try {
     rideDistanceTot += rideDistance[i];
     rideElevationTot += rideElevation[i];
     rideMovingTimeTot += rideMovingTime[i];
-    movingTimeHours = Math.floor(rideMovingTime[i]/3600);
-    movingTimeMinutes = Math.floor((rideMovingTime[i]-movingTimeHours*3600)/60);
-    movingTimeSeconds = rideMovingTime[i]-movingTimeHours*3600-movingTimeMinutes*60;
+    movingTimeHours = Math.floor(rideMovingTime[i]/3600).toString().padStart(2, '0');
+    movingTimeMinutes = Math.floor((rideMovingTime[i]-movingTimeHours*3600)/60).toString().padStart(2, '0');
+    movingTimeSeconds = (rideMovingTime[i]-movingTimeHours*3600-movingTimeMinutes*60).toString().padStart(2, '0');
     
     
     tableHTML += `<tr><td>${monthNames[i]}</td><td>${rideCount[i]}</td><td>${movingTimeHours}:${movingTimeMinutes}:${movingTimeSeconds}</td><td>${Math.round(rideDistance[i])}</td><td>${rideDistCumul}</td><td>${Math.round(rideElevation[i])}</td></tr>`;
   }
-tableHTML += `<tr><td>Total</td><td>${rideCountTot}</td><td>${rideMovingTimeTot}</td><td>${Math.round(rideDistanceTot)}</td><td>&nbsp;</td><td>${rideElevationTot}</td></tr>`;
+      movingTimeTotHours = Math.floor(rideMovingTimeTot/3600).toString().padStart(2, '0');
+    movingTimeTotMinutes = Math.floor((rideMovingTimeTot-movingTimeTotHours*3600)/60).toString().padStart(2, '0');
+    movingTimeTotSeconds = (rideMovingTimeTot-movingTimeTotHours*3600-movingTimeTotMinutes*60).toString().padStart(2, '0');
+
+tableHTML += `<tr><td>Total</td><td>${rideCountTot}</td><td>${rideMovingTimeTotHours}:${rideMovingTimeTotMinutes}:${rideMovingTimeTotSeconds}</td><td>${Math.round(rideDistanceTot)}</td><td>&nbsp;</td><td>${rideElevationTot}</td></tr>`;
   tableHTML += '</table>';
   document.getElementById("loads").innerHTML = tableHTML; 
     
