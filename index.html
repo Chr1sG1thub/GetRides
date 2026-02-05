@@ -63,7 +63,7 @@ try {
   for (let i = 0; i < 12; i++) {
     rideDistCumul += Math.round(rideDistance[i]);
     rideCountTot += rideCount[i];
-    rideDistanceTot += rideDistance[i];
+    rideDistanceTot = rideDistCumul;  //avoids rounding errors between cumul and total
     rideElevationTot += rideElevation[i];
     rideMovingTimeTot += rideMovingTime[i];
     movingTimeHours = Math.floor(rideMovingTime[i]/3600).toString().padStart(2, '0');
