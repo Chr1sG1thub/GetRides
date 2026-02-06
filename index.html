@@ -122,8 +122,8 @@
 
         tableHTML += `<tr><td><i>Total</i></td><td><i>${virtualRideCountTot}</i></td><td><i>${virtualMovingTimeTotHours}:${virtualMovingTimeTotMinutes}:${virtualMovingTimeTotSeconds}</i></td><td><i>${Math.round(virtualRideDistanceTot)}</i></td><td>&nbsp;</td></tr>`;
         tableHTML += '</table>';
-        const virtualAverageSpeed = virtualRideDistanceTot * 3600 / virtualRideMovingTimeTot;
-        tableHTML += `<p><strong>Avg Speed:</strong> ${virtualAverageSpeed.toFixed(2)} km/h</p>`;
+//        const virtualAverageSpeed = virtualRideDistanceTot * 3600 / virtualRideMovingTimeTot;
+//        tableHTML += `<p><strong>Avg Speed:</strong> ${virtualAverageSpeed.toFixed(2)} km/h</p>`;
         document.getElementById("vloads").innerHTML = tableHTML;
 
       } catch (error) {
