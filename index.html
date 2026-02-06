@@ -6,6 +6,7 @@
 
 <body style="font-family: Arial; font-size: medium; background-color: thistle">
   <div id="loads">Loading...</div>
+  <div id="vloads">&nbsp;</div>
   <script>
 
     async function getData() {
@@ -36,6 +37,11 @@
 
         let virtualRideCount = new Array(12).fill(0);
         let virtualRideDistance = new Array(12).fill(0);
+        let virtualRideMovingTime = new Array(12).fill(0);
+
+        let virtualRideCountTot = 0;
+        let virtualRideDistanceTot = 0;
+        let virtualRideMovingTimeTot = 0;
 
         let monthIndex;
         const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
@@ -45,6 +51,7 @@
           if (ride.type == "VirtualRide") {
             virtualRideCount[monthIndex]++;
             virtualRideDistance[monthIndex] += ride.distance / 1000;
+            virtualRideMovingTime[monthIndex] += ride.moving_time;
           } else {
             rideCount[monthIndex]++;
             rideDistance[monthIndex] += ride.distance / 1000;
@@ -60,6 +67,11 @@
         let movingTimeHours;
         let movingTimeMinutes;
         let movingTimeSeconds;
+
+        let virtualRideDistCumul = 0;
+        let virtualMovingTimeHours;
+        let virtualMovingTimeMinutes;
+        let virtualMovingTimeSeconds;
 
         const today = new Date();
         thisMonth = today.getMonth();
@@ -88,6 +100,29 @@
         const averageSpeed = rideDistanceTot * 3600 / rideMovingTimeTot;
         tableHTML += `<p><strong>Avg Speed:</strong> ${averageSpeed.toFixed(2)} km/h</p>`;
         document.getElementById("loads").innerHTML = tableHTML;
+
+         tableHTML = '<p><h2>2026</h2></p><table border="1" style="text-align: right;"><tr><th>Month</th><th>Rides</th><th>Duration</th><th>Distance</th><th>Dist Cumul</th></tr>';
+        for (let i = 0; i <= thisMonth; i++) {
+          virtualRideDistCumul += Math.round(virtualRideDistance[i]);
+          virtualRideCountTot += virtualRideCount[i];
+          virtualRideDistanceTot = virtualRideDistCumul;  //avoids rounding errors between cumul and total
+          virtualRideMovingTimeTot += virtualRideMovingTime[i];
+          virtualMovingTimeHours = Math.floor(virtualRideMovingTime[i] / 3600).toString().padStart(2, '0');
+          virtualMovingTimeMinutes = Math.floor((virtualRideMovingTime[i] - virtualMovingTimeHours * 3600) / 60).toString().padStart(2, '0');
+          virtualMovingTimeSeconds = (virtualRideMovingTime[i] - virtualMovingTimeHours * 3600 - virtualMovingTimeMinutes * 60).toString().padStart(2, '0');
+
+
+          tableHTML += `<tr><td>${monthNames[i]}</td><td>${virtualRideCount[i]}</td><td>${virtualMovingTimeHours}:${virtualMovingTimeMinutes}:${virtualMovingTimeSeconds}</td><td>${Math.round(virtualRideDistance[i])}</td><td>${virtualRideDistCumul}</td></tr>`;
+        }
+        virtualMovingTimeTotHours = Math.floor(virtualRideMovingTimeTot / 3600).toString().padStart(2, '0');
+        virtualMovingTimeTotMinutes = Math.floor((virtualRideMovingTimeTot - virtualMovingTimeTotHours * 3600) / 60).toString().padStart(2, '0');
+        virtualMovingTimeTotSeconds = (virtualRideMovingTimeTot - virtualMovingTimeTotHours * 3600 - virtualMovingTimeTotMinutes * 60).toString().padStart(2, '0');
+
+        tableHTML += `<tr><td><i>Total</i></td><td><i>${virtualRideCountTot}</i></td><td><i>${virtualMovingTimeTotHours}:${virtualMovingTimeTotMinutes}:${virtualMovingTimeTotSeconds}</i></td><td><i>${Math.round(virtualRideDistanceTot)}</i></td><td>&nbsp;</td></tr>`;
+        tableHTML += '</table>';
+        const virtualAverageSpeed = virtualRideDistanceTot * 3600 / virtualRideMovingTimeTot;
+        tableHTML += `<p><strong>Avg Speed:</strong> ${virtualAverageSpeed.toFixed(2)} km/h</p>`;
+        document.getElementById("vloads").innerHTML = tableHTML;
 
       } catch (error) {
         console.error('Fetch error:', error);
