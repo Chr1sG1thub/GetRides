@@ -5,10 +5,10 @@
 </head>
 
 <body style="font-family: Arial; font-size: 24px; background-color: thistle">
-<div style="font-family: Arial; font-size: 24px;">
-  <div id="loads">Loading...</div>
-  <div id="vloads">&nbsp;</div>
-</div>
+
+  <div id="loads" style="font-family: Arial; font-size: 24px;">Loading...</div>
+  <div id="vloads" style="font-family: Arial; font-size: 24px;">&nbsp;</div>
+
   <script>
 
     async function getData() {
@@ -79,7 +79,7 @@
         thisMonth = today.getMonth();
 
 
-        let tableHTML = '<p><h2>2026</h2></p><p><h3><i>Real</i></h3></p><table border="1" style="text-align: right;"><tr><th>Month</th><th>Rides</th><th>Duration</th><th>Distance</th><th>Dist Cumul</th><th>Height Gain</th></tr>';
+        let tableHTML = '<h2>2026</h2><p><h3><i>Real</i></h3></p><table border="1" style="text-align: right;"><tr><th>Month</th><th>Rides</th><th>Duration</th><th>Distance</th><th>Dist Cumul</th><th>Height Gain</th></tr>';
         for (let i = 0; i <= thisMonth; i++) {
           rideDistCumul += Math.round(rideDistance[i]);
           rideCountTot += rideCount[i];
@@ -103,7 +103,7 @@
         tableHTML += `<p><strong>Avg Speed:</strong> ${averageSpeed.toFixed(2)} km/h</p>`;
         document.getElementById("loads").innerHTML = tableHTML;
 
-         tableHTML = '<p><h3><i>Virtual</i></h3></p><table border="1" style="text-align: right;"><tr><th>Month</th><th>Rides</th><th>Duration</th><th>Distance</th><th>Dist Cumul</th></tr>';
+         tableHTML = '<h3><i>Virtual</i></h3><table border="1" style="text-align: right;"><tr><th>Month</th><th>Rides</th><th>Duration</th><th>Distance</th><th>Dist Cumul</th></tr>';
         for (let i = 0; i <= thisMonth; i++) {
           virtualRideDistCumul += Math.round(virtualRideDistance[i]);
           virtualRideCountTot += virtualRideCount[i];
