@@ -1,43 +1,45 @@
 export default async function handler(req, res) {
-  res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Allow-Methods
-
-  
-  if (req.method === 'OPTIONS') {
-    res.status(200).end();
-    return;
-  }
-
-  const apiKey = process.env.INTERVALS_API_KEY || '3bjz27ydq97vjwmrc7f8u12oo'; // fallback for test
-  const authString = `API_KEY:${apiKey}`;
-  const auth = Buffer.from(authString).toString('base64');
-  
-  console.log('Auth string:', authString); // Logs in Vercel dashboard
-  console.log('Target URL:', `https://intervals.icu${req.url.replace(/^\/api/, '/api/v1')}`);
-
-  const targetUrl = `https://intervals.icu${req.url.replace(/^\/api/, '/api/v1')}`;
-
   try {
-    const response = await fetch(targetUrl, {
-      method: 'GET',
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Methods', 'GET, OPTIONS');
+    
+    if (req.method === 'OPTIONS') {
+      res.status(200).end();
+      return;
+    }
+
+    const apiKey = process.env.INTERVALS_API_KEY;
+    if (!apiKey) throw new Error('Missing INTERVALS_API_KEY env var');
+
+    const auth = Buffer.from(`API_KEY:${apiKey}`).toString('base64');
+
+    // Build correct Intervals path: /api/intervals?foo → /api/v1/athlete/0/activities?foo
+    const url = new URL('https://intervals.icu/api/v1/athlete/0/activities');
+    
+    // Copy query params
+    new URLSearchParams(req.url.split('?')[1] || '').forEach((value, key) => {
+      url.searchParams.append(key, value);
+    });
+
+    console.log('Fetching:', url.toString());
+
+    const response = await fetch(url, {
       headers: {
         'Authorization': `Basic ${auth}`,
         'Accept': 'application/json'
       }
     });
 
-    console.log('Intervals status:', response.status);
-
     if (!response.ok) {
-      const errText = await response.text();
-      res.status(response.status).json({ error: `Intervals ${response.status}`, details: errText });
-      return;
+      const errorText = await response.text();
+      throw new Error(`Intervals ${response.status}: ${errorText.slice(0, 200)}`);
     }
 
     const data = await response.json();
     res.status(200).json(data);
+    
   } catch (error) {
+    console.error('Handler error:', error.message);
     res.status(500).json({ error: error.message });
   }
 }
-
