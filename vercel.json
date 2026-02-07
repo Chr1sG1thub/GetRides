@@ -1,0 +1,13 @@
+{
+  "functions": {
+    "api/intervals/index.js": {
+      "maxDuration": 30
+    }
+  },
+  "rewrites": [
+    {
+      "source": "/api/(.*)",
+      "destination": "/api/$1"
+    }
+  ]
+}
