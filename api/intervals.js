@@ -1,7 +1,7 @@
 export default async function handler(req, res) {
   try {
-    res.setHeader('Access-Control-Allow-Origin', '*');
-    res.setHeader('Access-Control-Allow-Methods', 'GET, OPTIONS');
+    res.setHeader('Access-Control-Allow-Origin', 'https://chr1sg1thub.github.io');
+    res.setHeader('Access-Control-Allow-Methods', 'GET');
     
     if (req.method === 'OPTIONS') {
       res.status(200).end();
@@ -21,7 +21,7 @@ export default async function handler(req, res) {
       url.searchParams.append(key, value);
     });
 
-    console.log('Fetching:', url.toString());
+ //   console.log('Fetching:', url.toString());
 
     const response = await fetch(url, {
       headers: {
