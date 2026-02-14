@@ -70,6 +70,7 @@ const response = await fetch('https://get-rides.vercel.app/api/intervals?oldest=
             lastRideDateString = lastRideDate.getDate().toString().padStart(2, "0") + "/" + (lastRideDate.getMonth()+1).toString().padStart(2, "0") + "/" + lastRideDate.getFullYear();
           }
         }
+        }
         );
 
         //    console.log(rideCount, rideDistance, rideElevation, rideMovingTime, virtualRideCount, virtualRideDistance);
