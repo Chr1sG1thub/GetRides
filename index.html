@@ -56,15 +56,18 @@ const response = await fetch('https://get-rides.vercel.app/api/intervals?oldest=
             virtualRideCount[monthIndex]++;
             virtualRideDistance[monthIndex] += ride.distance / 1000;
             virtualRideMovingTime[monthIndex] += ride.moving_time;
+            if (lastVirtualRideDate === undefined) {
             lastVirtualRideDate = new Date(ride.start_date_local);
-            lastVirtualRideDateString = lastVirtualRideDate.getDate().toString().padStart(2, "0") + "/" + lastVirtualRideDate.getMonth().toString().padStart(2, "0") + "/" + lastVirtualRideDate.getFullYear();
+            lastVirtualRideDateString = lastVirtualRideDate.getDate().toString().padStart(2, "0") + "/" + (lastVirtualRideDate.getMonth()+1).toString().padStart(2, "0") + "/" + lastVirtualRideDate.getFullYear();
+            }
           } else {
             rideCount[monthIndex]++;
             rideDistance[monthIndex] += ride.distance / 1000;
             rideElevation[monthIndex] += ride.total_elevation_gain;
             rideMovingTime[monthIndex] += ride.moving_time;
             lastRideDate = new Date(ride.start_date_local);
-            lastRideDateString = lastVirtualRideDate.getDate().toString().padStart(2, "0") + "/" + lastVirtualRideDate.getMonth().toString().padStart(2, "0") + "/" + lastVirtualRideDate.getFullYear();
+            if (lastRideDate === undefined) {
+            lastRideDateString = lastRideDate.getDate().toString().padStart(2, "0") + "/" + (lastRideDate.getMonth()+1).toString().padStart(2, "0") + "/" + lastRideDate.getFullYear();
           }
         }
         );
